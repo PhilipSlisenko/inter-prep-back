@@ -1,5 +1,8 @@
 name: deploy
 
+on:
+  workflow_dispatch: # This enables manual triggering
+
 jobs:
   build:
     runs-on: ubuntu-latest
