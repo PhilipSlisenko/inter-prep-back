@@ -1,0 +1,3 @@
+- somehow connect to supabase and create tables. in what schema tables are created?
+
+- have a runnable shell script
