@@ -9,6 +9,7 @@ setup(
     install_requires=[
         "fastapi",
         "uvicorn",
+        "gunicorn",
         "typer[all]",
         "SQLAlchemy",
         "psycopg2-binary",

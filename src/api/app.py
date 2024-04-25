@@ -1,7 +1,12 @@
+import subprocess
+
 from fastapi import FastAPI
 
 from src.api.controllers import router as api_router
 from src.api.stripe import router as stripe_router
+
+nproc_res = subprocess.run("nproc", shell=True, capture_output=True, text=True)
+print(nproc_res.stdout)
 
 app = FastAPI()
 
