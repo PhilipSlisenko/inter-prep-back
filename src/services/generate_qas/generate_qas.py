@@ -149,7 +149,7 @@ async def generate_qas_recursive(
                 generate_qas_recursive(
                     cv,
                     job_description,
-                    prev_qa_pairs,
+                    prev_qa_pairs,  # TODO: new question is not incorporated
                     feedbacks,
                     num_to_generate - 1,
                     pairs_out,
@@ -195,7 +195,7 @@ You will be provided with the following:
 """
 '''
             + """
-IMPORTANT: You should reply with JSON that adheres to the following schema:
+IMPORTANT: You should reply with JSON object that adheres to the following schema:
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
@@ -221,6 +221,7 @@ IMPORTANT: You should reply with JSON that adheres to the following schema:
   },
   "required": ["reasoning", "question", "reflexion", "mark"]
 }
+(e.g. {{"reasoning": "Your reasoning here", "question": "Generated question", "reflexion": "You reflexion", "mark": "How you graded yourself"}})
 
 IMPORTANT: Questions json objects that are part of the context might be missing some fields. More specifically - they will be set to null. This is for the purpose of saving context space. You obviously must respond with strict adherence to provided JSON schema.
 """,
