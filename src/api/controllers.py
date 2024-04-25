@@ -30,7 +30,7 @@ router = APIRouter()
 
 @router.post("/register_session")
 async def register_session(
-    user_id: Annotated[str, Body()],
+    user_id: Annotated[str, Depends(auth)],
     session_id: Annotated[str, Body()],
 ):
     register_qa_session(user_id, session_id)
@@ -38,6 +38,7 @@ async def register_session(
 
 @router.post("/log_cv_and_job_description")
 async def log_cv_and_job_description(
+    user_sub: Annotated[str, Depends(auth)],
     session_id: Annotated[str, Body()],
     cv: Annotated[str, Body()],
     job_description: Annotated[str, Body()],
@@ -47,15 +48,12 @@ async def log_cv_and_job_description(
 
 
 @router.get("/get_cv_and_job_description")
-async def get_cv_and_job_description(session_id: str):
+async def get_cv_and_job_description(
+    user_sub: Annotated[str, Depends(auth)], session_id: str
+):
     cv = get_cv(session_id)
     job_description = get_job_description(session_id)
     return {"cv": cv, "job_description": job_description}
-
-
-@router.get("/get_latest_update_hash")
-async def get_latest_update_hash(session_id: str):
-    return get_latest_hash(session_id)
 
 
 @router.get("/generate_qa_batch")
@@ -106,24 +104,24 @@ async def generate_qa_batch(
 
 
 @router.get("/get_qas")
-async def get_qas(session_id: str):
+async def get_qas(user_sub: Annotated[str, Depends(auth)], session_id: str):
     qa_pairs = get_qa_pairs(session_id)
     return {"qa_pairs": qa_pairs}
 
 
 @router.get("/get_qa_session_ids")
-async def get_qa_session_ids(user_id: str):
+async def get_qa_session_ids(user_sub: Annotated[str, Depends(auth)]):
     # returns list of session ids that are associated with given user_id
     # when I have auth - user_id is sub and is retrieved from auth details
-    session_ids = get_session_ids(user_id)
+    session_ids = get_session_ids(user_id=user_sub)
     return {"session_ids": session_ids}
 
 
 @router.post("/handle_log_in")
-async def handle_log_in(user_id: str):
-    handle_log_in_(user_id)
+async def handle_log_in(user_sub: Annotated[str, Depends(auth)]):
+    handle_log_in_(user_id=user_sub)
 
 
 @router.post("/feedback")
-async def feedback(feedback: Feedback):
+async def feedback(user_id: Annotated[str, Depends(auth)], feedback: Feedback):
     log_feedback(feedback)

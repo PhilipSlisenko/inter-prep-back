@@ -1,6 +1,7 @@
 from src.db.repositories.user import add_flag, add_tokens, get_flags
 
-TOKENS_TO_GRANT_ON_WELCOME = 3 * 3 * 2
+# TOKENS_TO_GRANT_ON_WELCOME = 3 * 3 * 2
+TOKENS_TO_GRANT_ON_WELCOME = 3 * 2
 
 
 def handle_log_in(user_id: str):

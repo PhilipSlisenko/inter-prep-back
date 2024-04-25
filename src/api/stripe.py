@@ -7,6 +7,7 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from typing_extensions import Literal, Mapping
 
 from src.config import config
+from src.db.repositories.user import add_tokens
 
 router = APIRouter()
 
@@ -99,5 +100,6 @@ async def my_webhook_view(request: Request):
 
 def handle_checkout_complete(product: Product, user_sub: str):
     # update db with proper amount
-
-    pass
+    # 4 8 16
+    product_to_tokens = {"p1": 4 * 3, "p2": 8 * 3, "p3": 16 * 3}
+    add_tokens(user_sub, product_to_tokens[product])

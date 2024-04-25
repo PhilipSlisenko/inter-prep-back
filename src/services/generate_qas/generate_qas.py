@@ -140,11 +140,7 @@ async def generate_qas_recursive(
     started_tasks = []
 
     # generate answer
-    #   if last question - will be last answer, last step - need to notify that qas generation finished
-    if num_to_generate > 1:
-        started_tasks.append(loop.create_task(generate_answer(pair_id, pairs_out)))
-    else:
-        started_tasks.append(loop.create_task(generate_answer(pair_id, pairs_out)))
+    started_tasks.append(loop.create_task(generate_answer(pair_id, pairs_out)))
 
     # generate next question
     if num_to_generate > 1:
@@ -280,8 +276,11 @@ User just shared feedback on the recent questions (FEEDBACK). Try to incorporate
 
     generated = json.loads(json_str)
 
-    # return generated["question"]
-    return "question_123"
+    return generated.get(
+        "question",
+        f"ops doops (couldn't find expected top-level 'question' field):\n{json.dumps(generated)}",
+    )
+    # return "question_123"
 
 
 async def generate_question(
