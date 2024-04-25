@@ -31,7 +31,7 @@ router = APIRouter()
 @router.post("/register_session")
 async def register_session(
     user_id: Annotated[str, Depends(auth)],
-    session_id: Annotated[str, Body()],
+    session_id: Annotated[str, Body(embed=True)],
 ):
     register_qa_session(user_id, session_id)
 
