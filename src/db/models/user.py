@@ -7,6 +7,7 @@ from ._base import Base
 
 class User(Base):
     __tablename__ = config["table_names_prefix"] + "users"
+    __table_args__ = {"schema": "public"}
 
     user_id = Column(String, primary_key=True)  # auth0_sub
     tokens = Column(Integer, default=0)

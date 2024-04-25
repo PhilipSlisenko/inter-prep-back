@@ -7,6 +7,7 @@ from ._base import Base
 
 class QASession(Base):
     __tablename__ = config["table_names_prefix"] + "qa_sessions"
+    __table_args__ = {"schema": "public"}
 
     user_id = Column(String, default="")
     session_id = Column(String, primary_key=True)
