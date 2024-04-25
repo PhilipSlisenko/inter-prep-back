@@ -1,6 +1,7 @@
 import os
 
 import stripe
+from typing_extensions import Literal
 
 config_local = {
     # "db_connection_string": "sqlite:///./.db/dev.db",
@@ -21,5 +22,12 @@ config_prd = {
     "auth0_api_audience": "inter-prep-api",
     "auth0_algorithms": ["RS256"],
 }
+
+env: Literal["local", "prd"] = os.getenv("ENV", "local")  # type: ignore
+
+if env == "local":
+    config = config_local
+if env == "prd":
+    config = config_prd
 
 stripe.api_key = os.getenv("STRIPE_API_KEY")
