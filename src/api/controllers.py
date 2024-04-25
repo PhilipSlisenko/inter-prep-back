@@ -58,11 +58,10 @@ async def get_cv_and_job_description(
 
 @router.get("/generate_qa_batch")
 async def generate_qa_batch(
-    user_id: str,
+    user_id: Annotated[str, Depends(auth)],
     session_id: str,
     cv: str,
     job_description: str,
-    user_sub: Annotated[str, Depends(auth)],
     last_question_n: int = 0,
     feedback: str = "",
 ) -> QenerateQAsOutput:
